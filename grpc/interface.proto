@@ -3,22 +3,35 @@ syntax = "proto3";
 package grpc;
 option go_package = "https://github.com/ThomasBavn/DISYS-auction-house/grpc";
 
-service Node {
-    rpc handlePeerRequest (Request) returns (Reply) {}
-    rpc requestEnterToCriticalSection (Request) returns (Reply) {}
+service AuctionHouse {
+    rpc bid(Bid) returns (Response) {}
+    rpc result(Void) returns (Result) {}
 }
 
-message Request {
+message Void{}
+
+message Bid {
     int32 id = 1;
-    string state = 2;
+    int32 amount = 2;
     int32 lamportTime = 3;
 }
 
-message Reply {
-    int32 id = 1;
-    string state = 2;
-    int32 lamportTime = 3;
+message Result {
+    int32 highestBid = 1;
+    int32 lamportTime = 2;
 }
+
+message Replica {
+    int32 highestBid = 1;
+    int32 winner = 4;
+    int32 lamportTime = 2;
+    int32 currentLeader = 3;
+}
+
+message Response {
+    int32 ack = 1;
+    }
+
 
 
 //for exam we can use assignment3chitty/protos instead of github

@@ -1,0 +1,49 @@
+Server structure:
+
+init all WANTS
+First to arrive becomes leader
+All other nodes RELEASED
+Leader pings all other (heart beat)
+	Leader receives Ack
+		expected = nodeAmount - 1 - nodesCrashedAmount
+Leader dies
+First RELEASED node to notice becomes Leader (using agrawaalalalala)
+New Leader elected
+Heartbeat
+Non-leader dies
+	Leader receives 1 less Ack within certain time limit
+	Leader Pings all other nodes that a node has crashed
+
+
+getCurrentLeader(){
+	result = request random node for current Leader
+	return result
+}
+
+Bid:
+
+Client-Frontend-Server structure
+Client bids an amount
+FrontEnd submits current bid
+	if no Leader is found after timeout
+		getCurrentLeader()
+		submit again
+Leader compares FrontEnd bid to current highest
+If higher:
+	Update highest bid
+	notify non-Leaders
+	Send response to FrontEnd that it went through
+else if lower:
+	send response to FrontEnd that the amount is too low
+frontEnd sends response to Client
+
+
+Result:
+
+Client Requests highest bid
+FrontEnd requests highestBid from Leader
+	if no Leader is found after timeout
+		getCurrentLeader()
+		request again
+Leader returns highestBid to FrontEnd
+FrontEnd returns highestBid to Client
